@@ -1,0 +1,14 @@
+{
+  "vocab_size": 6390,
+  "total_parameters": 12326296,
+  "trainable_parameters": 9959320,
+  "max_steps": 200,
+  "effective_batch_size": 16,
+  "eval_loss_before": 8.811097145080566,
+  "perplexity_before": 6708.27518214237,
+  "eval_loss_after": 5.748242378234863,
+  "perplexity_after": 313.63891696284855,
+  "training_time_seconds": 114.90364861488342,
+  "best_eval_loss": 5.748242378234863,
+  "best_checkpoint": "/kaggle/working/decoder_pretrain_team_kda/checkpoint-200"
+}
