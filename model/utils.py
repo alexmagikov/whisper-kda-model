@@ -20,7 +20,6 @@ def shift_tokens_right(
 
     return shifted
 
-
 def resize_audio_attention_mask(
     attention_mask,
     target_length,

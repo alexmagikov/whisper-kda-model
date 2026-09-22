@@ -385,7 +385,7 @@ class KDACrossAttentionDecoder(KDAPreTrainedModel):
             shift_logits = logits[:, :-1].contiguous()
             shift_labels = labels[:, 1:].contiguous()
 
-            # seuqence_length - количество токенов в одной последовательности
+            # seuqence_length - num of tokens in sequence
             loss = F.cross_entropy(
                 shift_logits.float().reshape(-1, shift_logits.size(-1)),
                 shift_labels.reshape(-1),
@@ -546,7 +546,7 @@ class WhisperKDAModel(KDAPreTrainedModel):
         if encoder_hidden_states is None:
             if input_features is None:
                 raise ValueError(
-                    "Нужно передать input_features или "
+                    "Should transfer input_features or "
                     "encoder_hidden_states"
                 )
 
@@ -564,7 +564,7 @@ class WhisperKDAModel(KDAPreTrainedModel):
         if decoder_input_ids is None:
             if labels is None:
                 raise ValueError(
-                    "Нужно передать decoder_input_ids или labels"
+                    "You must provide either decoder_input_ids or labels"
                 )
 
             decoder_input_ids = shift_tokens_right(
@@ -659,7 +659,7 @@ class WhisperKDAModel(KDAPreTrainedModel):
 
         if mismatches:
             raise ValueError(
-                "Decoder checkpoint несовместим:\n"
+                "Decoder checkpoint is incompatible:\n"
                 + "\n".join(mismatches)
             )
 
@@ -685,7 +685,7 @@ class WhisperKDAModel(KDAPreTrainedModel):
 
         if unexpected or invalid_missing:
             raise RuntimeError(
-                "Ошибка загрузки decoder checkpoint: "
+                "Download error decoder checkpoint: "
                 f"missing={invalid_missing}, "
                 f"unexpected={unexpected}"
             )
@@ -697,7 +697,7 @@ class WhisperKDAModel(KDAPreTrainedModel):
             is not self.decoder.model.embeddings.weight
         ):
             raise RuntimeError(
-                "После загрузки потеряна связь embeddings/lm_head"
+                "Tie_weights error"
             )
 
         del pretrained_decoder
@@ -719,7 +719,7 @@ class WhisperKDAModel(KDAPreTrainedModel):
     ):
         if input_features is None:
             raise ValueError(
-                "Для генерации необходимо передать input_features"
+                "input_features must be provided for generation"
             )
 
         generation_config = (
@@ -746,13 +746,13 @@ class WhisperKDAModel(KDAPreTrainedModel):
 
         if num_beams != 1:
             raise NotImplementedError(
-                "KDA cache пока поддерживается только "
-                "для greedy decoding: num_beams=1"
+                "KDA cache is not implemented for "
+                "num_beams > 1"
             )
 
         if do_sample:
             raise NotImplementedError(
-                "Sampling пока не реализован"
+                "Sampling is not implemented"
             )
 
         device = next(self.parameters()).device
@@ -809,23 +809,23 @@ class WhisperKDAModel(KDAPreTrainedModel):
                 stopping_length = max_length
             else:
                 raise ValueError(
-                    "Нужно установить max_new_tokens или max_length"
+                    "Need to provide max_new_tokens or max_length"
                 )
 
             if stopping_length <= generated_ids.size(1):
                 raise ValueError(
-                    "Длина генерации должна быть больше длины prompt"
+                    "Generation length is bigger than prompt length"
                 )
 
             eos_token_id = self.config.eos_token_id
             if eos_token_id is None:
-                raise ValueError("eos_token_id не установлен")
+                raise ValueError("eos_token_id is not provided")
 
-            pad_token_id = (
-                self.config.pad_token_id
-                if self.config.pad_token_id is not None
-                else eos_token_id
-            )
+            # pad_token_id = (
+            #     self.config.pad_token_id
+            #     if self.config.pad_token_id is not None
+            #     else eos_token_id
+            # )
 
             finished = torch.zeros(
                 batch_size,
