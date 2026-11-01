@@ -37,5 +37,7 @@ data/
 *.env
 
 # IDE
-.vscode/training/subset_5h.zip
+.vscode/
+
+# Архив с аудио (больше лимита GitHub)
 training/subset_5h.zip

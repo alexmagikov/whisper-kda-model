@@ -44,24 +44,7 @@ $O(T^2)$ от длины текста $T$, а при генерации KV-кэ�
 
 ## Архитектура
 
-```mermaid
-flowchart LR
-    A[Аудио 16 кГц] --> B[log-Mel признаки]
-    B --> C[Whisper-tiny encoder<br/>заморожен]
-    C --> D[Encoder hidden states<br/>и аудиомаска]
-    T[Токены транскрипции] --> E[Token embeddings]
-    E --> L
-    subgraph L[KDA-блок × 4]
-        direction TB
-        L1[RMSNorm + KDA self-attention<br/>short conv, residual]
-        L2[RMSNorm + cross-attention<br/>к аудио, residual]
-        L3[RMSNorm + Gated MLP SwiGLU<br/>residual]
-        L1 --> L2 --> L3
-    end
-    D --> L2
-    L --> H[Final RMSNorm + LM head<br/>веса связаны с embeddings]
-    H --> O[Логиты словаря]
-```
+![Архитектура Whisper-KDA](docs/architecture.png)
 
 Каждый блок декодера последовательно выполняет три подслоя:
 
@@ -207,12 +190,13 @@ training/
 ├── metrics.py                  # WER и CER
 ├── utils.py                    # Проверка согласованности кэша генерации
 ├── manifest_5h_subset.jsonl    # Manifest 5-часового поднабора
-├── subset_5h.zip               # Аудио 5-часового поднабора
 └── colab_prepare_and_smoke.ipynb # Smoke-запуск пайплайна в Colab
 pipelines/
 └── whisper-tiny_baseline.py    # WER исходного Whisper-tiny на подготовленных данных
 benchmarks/                      # Smoke-тесты, подбор конфигурации, сравнение с Whisper-tiny
 decoder-pretrain/                # Ноутбук, метрики и отчёт претрейна декодера
+docs/
+└── architecture.png             # Схема архитектуры
 ```
 
 ## Данные
@@ -223,6 +207,12 @@ decoder-pretrain/                # Ноутбук, метрики и отчёт 
 отфильтрованы по длительности и темпу речи и дедуплицированы по SHA-256 аудио и
 хэшу текста. Поля manifest: `audio_filepath`, `duration`, `text`, `source`, `license`,
 `audio_sha256`, `text_hash`.
+
+В репозитории хранится только manifest
+[training/manifest_5h_subset.jsonl](training/manifest_5h_subset.jsonl). Архив с аудио
+`subset_5h.zip` (около 466 МБ) превышает лимит GitHub на размер файла и в git не
+добавляется (указан в `.gitignore`). Перед подготовкой данных положите его в
+`training/subset_5h.zip`.
 
 ## Установка
 
@@ -312,8 +302,7 @@ weight decay 0,1), batch 16, FP16, выбор лучшего чекпойнта 
 - Энкодер Whisper по умолчанию заморожен, чтобы градиенты случайно инициализированного
   декодера не разрушили предобученные аудиопризнаки. Разморозка — `model.unfreeze_encoder()`.
 - WER / CER Whisper-KDA не измерены, а сравнение скорости выполнено на случайных весах.
-- `training/subset_5h.zip` весит около 466 МБ, что больше лимита GitHub на один файл
-  (100 МБ). Для публикации такие данные нужно хранить через Git LFS или во внешнем хранилище.
+- Архив с аудио не входит в репозиторий, его нужно получить отдельно (см. [Данные](#данные)).
 
 ## Команда
 
