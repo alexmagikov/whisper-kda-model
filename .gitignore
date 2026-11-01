@@ -37,4 +37,4 @@ data/
 *.env
 
 # IDE
-.vscode/
+.vscode/training/subset_5h.zip
