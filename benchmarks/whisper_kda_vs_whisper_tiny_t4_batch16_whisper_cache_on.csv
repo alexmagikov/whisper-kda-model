@@ -1,0 +1,17 @@
+gpu,precision,batch_size,warmup_runs,measured_runs,model,benchmark,decoder_length,generation_state,parameters_m,incremental_peak_memory_mb,median_ms,tokens_per_second,avg_gpu_utilization_pct,avg_power_w,estimated_energy_per_token_j
+Tesla T4,FP16,16,1,1,Whisper-KDA,teacher_forced_forward,64,none,37.997,275.223,113.763,9001.152,89.286,65.240,0.006
+Tesla T4,FP16,16,1,1,Whisper-KDA,greedy_generation,64,KDA recurrent state,37.997,275.215,1080.935,932.526,66.733,69.299,0.106
+Tesla T4,FP16,16,1,1,Whisper-KDA,teacher_forced_forward,128,none,37.997,290.944,91.652,22345.472,89.000,72.045,0.003
+Tesla T4,FP16,16,1,1,Whisper-KDA,greedy_generation,128,KDA recurrent state,37.997,275.215,2121.735,957.707,64.032,68.293,0.102
+Tesla T4,FP16,16,1,1,Whisper-KDA,teacher_forced_forward,256,none,37.997,499.175,113.441,36106.752,95.000,66.469,0.002
+Tesla T4,FP16,16,1,1,Whisper-KDA,greedy_generation,256,KDA recurrent state,37.997,275.215,4592.423,888.420,97.558,67.847,0.071
+Tesla T4,FP16,16,1,1,Whisper-KDA,teacher_forced_forward,448,none,37.997,810.398,147.966,48443.584,99.286,65.769,0.001
+Tesla T4,FP16,16,1,1,Whisper-KDA,greedy_generation,448,KDA recurrent state,37.997,275.215,7812.500,915.456,88.337,67.584,0.078
+Tesla T4,FP16,16,1,1,Whisper-tiny,teacher_forced_forward,64,none,37.761,266.223,76.165,13444.416,87.125,64.144,0.005
+Tesla T4,FP16,16,1,1,Whisper-tiny,greedy_generation,64,self + cross K/V,37.761,266.215,336.835,2992.563,54.100,63.406,0.024
+Tesla T4,FP16,16,1,1,Whisper-tiny,teacher_forced_forward,128,none,37.761,281.622,86.558,23660.544,91.857,66.959,0.003
+Tesla T4,FP16,16,1,1,Whisper-tiny,greedy_generation,128,self + cross K/V,37.761,266.215,635.753,3196.209,51.400,64.338,0.023
+Tesla T4,FP16,16,1,1,Whisper-tiny,teacher_forced_forward,256,none,37.761,489.019,99.028,41361.920,93.714,64.493,0.002
+Tesla T4,FP16,16,1,1,Whisper-tiny,greedy_generation,256,self + cross K/V,37.761,266.215,1613.554,2528.580,44.842,67.928,0.024
+Tesla T4,FP16,16,1,1,Whisper-tiny,teacher_forced_forward,448,none,37.761,800.555,121.556,58968.896,95.875,65.848,0.001
+Tesla T4,FP16,16,1,1,Whisper-tiny,greedy_generation,448,self + cross K/V,37.761,266.215,2136.752,3347.136,47.129,64.907,0.022
